@@ -7,4 +7,16 @@
     <string name="chats">chats</string>
     <string name="groups">Groups</string>
     <string name="contacts">Contacts</string>
+    <string name="shr_hint_username">Username</string>
+    <string name="shr_hint_password">Password</string>
+    <string name="login">login</string>
+    <string name="sign_up">sign up</string>
+    <string name="error_password">Password must contain at least 8 characters.</string>
+    <string name="find_friends">Find Friends</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Logout</string>
+    <string name="update">Update</string>
+    <string name="CreateGroup">Create Group</string>
+    <string name="enter_group_name">Enter Group Name:</string>
+
 </resources>
