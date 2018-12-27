@@ -15,11 +15,15 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -65,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+        retieveUserRefrence();
     }
 
     private void init() {
@@ -134,7 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
 
-                StorageReference filePath = mUserProfileImageRef.child(mCurrentUserID + ".jpg");
+                final StorageReference filePath = mUserProfileImageRef.child(mCurrentUserID + ".jpg");
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -144,13 +149,13 @@ public class SettingsActivity extends AppCompatActivity {
 
                             Toast.makeText(SettingsActivity.this, "Photo Uploaded", Toast.LENGTH_SHORT).show();
 
-                          StorageReference ur_firebase_reference = mUserProfileImageRef.child("user_photos/" + mCurrentUserID);
+                           // StorageReference ur_firebase_reference = mUserProfileImageRef.child(mCurrentUserID + ".jpg");
 
-                    //        final String downloadedUrl = mUserProfileImageRef.getDownloadUrl().toString();
+                         //      final String downloadedUrl = filePath.getDownloadUrl().toString();
 
 
                             mDatabase.child("Users").child(mCurrentUserID).child("image")
-                                    .setValue(ur_firebase_reference.getDownloadUrl().toString())
+                                    .setValue(filePath)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
@@ -168,6 +173,43 @@ public class SettingsActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    void retieveUserRefrence() {
+
+        mDatabase.child("Users").child(mCurrentUserID)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists() && dataSnapshot.hasChild("name") && dataSnapshot.hasChild("image")) {
+
+                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
+                            String retrieveSatus = dataSnapshot.child("status").getValue().toString();
+                            String retrieveProfileImage = dataSnapshot.child("image").getValue().toString();
+
+                            mSetUserNameEditText.setText(retrieveUserName);
+                            mUserStatusEditText.setText(retrieveSatus);
+                            Picasso.get().load(retrieveProfileImage).into(mUserImagecircleImageView);
+
+                        } else if (dataSnapshot.exists() && dataSnapshot.hasChild("name")) {
+                            String retrieveUserName = dataSnapshot.child("name").getValue().toString();
+                            String retrieveSatus = dataSnapshot.child("status").getValue().toString();
+
+                            mSetUserNameEditText.setText(retrieveUserName);
+                            mUserStatusEditText.setText(retrieveSatus);
+
+                        } else {
+
+                            Toast.makeText(SettingsActivity.this, "please set and update your profile info", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     private void navigateToMainActivity() {

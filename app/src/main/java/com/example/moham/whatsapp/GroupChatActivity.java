@@ -113,7 +113,6 @@ public class GroupChatActivity extends AppCompatActivity {
     }
 
 
-
     private void init() {
         mSendMessagetEditText = findViewById(R.id.send_message_edit_text);
         mSendMessageImageButton = findViewById(R.id.send_message_ib);

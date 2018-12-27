@@ -18,5 +18,8 @@
     <string name="update">Update</string>
     <string name="CreateGroup">Create Group</string>
     <string name="enter_group_name">Enter Group Name:</string>
+    <string name="requests">Requests</string>
+    <string name="cancel">cancel</string>
+    <string name="accept">accept</string>
 
 </resources>

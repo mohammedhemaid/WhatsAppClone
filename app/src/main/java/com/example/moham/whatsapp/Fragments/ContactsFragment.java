@@ -71,36 +71,36 @@ public class ContactsFragment extends Fragment {
 
                 String userId = getRef(position).getKey();
 
-                    mUserRef.child(userId).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.hasChild("image")) {
+                mUserRef.child(userId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.hasChild("image")) {
 
-                                String userImage = dataSnapshot.child("image").getValue().toString();
-                                String username = dataSnapshot.child("name").getValue().toString();
-                                String userStatus = dataSnapshot.child("status").getValue().toString();
+                            String userImage = dataSnapshot.child("image").getValue().toString();
+                            String username = dataSnapshot.child("name").getValue().toString();
+                            String userStatus = dataSnapshot.child("status").getValue().toString();
 
-                                Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
-                                holder.mUserName.setText(username);
-                                holder.mUserStatus.setText(userStatus);
+                            Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                            holder.mUserName.setText(username);
+                            holder.mUserStatus.setText(userStatus);
 
-                            } else {
+                        } else {
 
-                                String username = dataSnapshot.child("name").getValue().toString();
-                                String userStatus = dataSnapshot.child("status").getValue().toString();
+                            String username = dataSnapshot.child("name").getValue().toString();
+                            String userStatus = dataSnapshot.child("status").getValue().toString();
 
-                                holder.mUserName.setText(username);
-                                holder.mUserStatus.setText(userStatus);
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            holder.mUserName.setText(username);
+                            holder.mUserStatus.setText(userStatus);
 
                         }
-                    });
-                }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
 
 
             @NonNull

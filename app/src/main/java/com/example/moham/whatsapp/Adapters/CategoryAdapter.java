@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.moham.whatsapp.Fragments.ChatFragment;
 import com.example.moham.whatsapp.Fragments.ContactsFragment;
 import com.example.moham.whatsapp.Fragments.GroupsFragment;
+import com.example.moham.whatsapp.Fragments.RequestFragment;
 import com.example.moham.whatsapp.R;
 
 public class CategoryAdapter extends FragmentPagerAdapter {
@@ -31,6 +32,8 @@ public class CategoryAdapter extends FragmentPagerAdapter {
                 return new GroupsFragment();
             case 2:
                 return new ContactsFragment();
+            case 3:
+                return new RequestFragment();
             default:
                 return null;
         }
@@ -38,7 +41,7 @@ public class CategoryAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Nullable
@@ -48,11 +51,14 @@ public class CategoryAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
+
                 return mContext.getString(R.string.chats);
             case 1:
                 return mContext.getString(R.string.groups);
             case 2:
                 return mContext.getString(R.string.contacts);
+            case 3:
+                return mContext.getString(R.string.requests);
             default:
                 return null;
         }
