@@ -1,6 +1,7 @@
 package com.example.moham.whatsapp.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.moham.whatsapp.ChatActivity;
 import com.example.moham.whatsapp.Model.Contacts;
 import com.example.moham.whatsapp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -76,15 +78,29 @@ public class ChatFragment extends Fragment {
                 mUserRef.child(users_id).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild("image")){
-                            String chatuserImage = dataSnapshot.child("image").getValue().toString();
-                            Picasso.get().load(chatuserImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
-                        }
-                        final String chatusername = dataSnapshot.child("name").getValue().toString();
-                        String chatuserStatus = dataSnapshot.child("status").getValue().toString();
+                        if (dataSnapshot.exists()) {
 
-                        holder.userName.setText(chatusername);
-                        holder.userStatus.setText("last seen :"+"\n"+"Data"+"\n"+"time");
+                            if (dataSnapshot.hasChild("image")) {
+                                String chatuserImage = dataSnapshot.child("image").getValue().toString();
+                                Picasso.get().load(chatuserImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                            }
+                            final String chatusername = dataSnapshot.child("name").getValue().toString();
+                            String chatuserStatus = dataSnapshot.child("status").getValue().toString();
+
+                            holder.userName.setText(chatusername);
+                            holder.userStatus.setText("last seen :" + "\n" + "Data" + "\n" + "time");
+
+                            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent chatIntent = new Intent(getContext(), ChatActivity.class);
+                                    chatIntent.putExtra("visit_user_id", users_id);
+                                    chatIntent.putExtra("visit_user_name", chatusername);
+                                    startActivity(chatIntent);
+
+                                }
+                            });
+                        }
                     }
 
                     @Override
