@@ -12,7 +12,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -36,11 +39,12 @@ public class SettingsActivity extends AppCompatActivity {
     private CircleImageView mUserImagecircleImageView;
     private MaterialButton mUpdateButton;
     private TextInputEditText mSetUserNameEditText, mUserStatusEditText;
-    private String mCurrentUserID;
+    private String mCurrentUserID, mDownloadImageUrl;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private static final int GALLARYPICK = 1;
     private StorageReference mUserProfileImageRef;
+    Uri imageUri;
 
 
     @Override
@@ -125,7 +129,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (requestCode == GALLARYPICK && resultCode == RESULT_OK && data != null) {
 
-            Uri imageUri = data.getData();
+            imageUri = data.getData();
             CropImage.activity()
                     .setGuidelines(CropImageView.Guidelines.ON)
                     .setAspectRatio(1, 1)
@@ -139,41 +143,67 @@ public class SettingsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
 
-                final StorageReference filePath = mUserProfileImageRef.child(mCurrentUserID + ".jpg");
+                final StorageReference filePath = mUserProfileImageRef.child(imageUri.getLastPathSegment() + "currentDate" + ".jpg");
 
-                filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                final UploadTask uploadTask = filePath.putFile(imageUri);
+
+                uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SettingsActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        if (task.isSuccessful()) {
+                        Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                        task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String photoLink = uri.toString();
 
-                            Toast.makeText(SettingsActivity.this, "Photo Uploaded", Toast.LENGTH_SHORT).show();
+                                mDatabase.child("Users").child(mCurrentUserID).child("image")
+                                        .setValue(photoLink)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
 
-                           // StorageReference ur_firebase_reference = mUserProfileImageRef.child(mCurrentUserID + ".jpg");
-
-                         //      final String downloadedUrl = filePath.getDownloadUrl().toString();
-
-
-                            mDatabase.child("Users").child(mCurrentUserID).child("image")
-                                    .setValue(filePath)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-
-                                                Toast.makeText(SettingsActivity.this, "image Saved", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(SettingsActivity.this, "image Saved", Toast.LENGTH_SHORT).show();
+                                                }
                                             }
-                                        }
-                                    });
-                        } else {
+                                        });
+                            }
+                        });
 
-                            Toast.makeText(SettingsActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(SettingsActivity.this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+
+                        Task<Uri> uriTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                            @Override
+                            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+
+                                if (!task.isSuccessful()) {
+                                    throw task.getException();
+                                }
+                                mDownloadImageUrl = filePath.getDownloadUrl().toString();
+                                return filePath.getDownloadUrl();
+                            }
+                        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Uri> task) {
+
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SettingsActivity.this, "Product Save in Database", Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        });
                     }
                 });
             }
         }
     }
+
 
     void retieveUserRefrence() {
 
