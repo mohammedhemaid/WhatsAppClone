@@ -69,8 +69,6 @@
         android:hint="write you phone number here"
         android:inputType="phone"
         android:textAlignment="center"
-        android:textSize="14sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/countryCodeET"
