@@ -184,33 +184,7 @@ public class RequestFragment extends Fragment {
                                                                 });
                                                     }
                                                 });
-                                                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(View v) {
-                                                        CharSequence option[] = new CharSequence[]{
 
-                                                                "Accept", "Cancel"
-
-                                                        };
-                                                        // implement progress bar
-
-                                                        AlertDialog.Builder builder =
-                                                                new AlertDialog.Builder(getContext());
-                                                        builder.setTitle(requestusername + "chatRequest");
-                                                        builder.setItems(option, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                if (which == 0) {
-
-                                                                }
-                                                                if (which == 1) {
-
-                                                                }
-                                                            }
-                                                        });
-                                                        builder.show();
-                                                    }
-                                                });
                                             }
 
                                             @Override
@@ -272,31 +246,7 @@ public class RequestFragment extends Fragment {
 
                                                     }
                                                 });
-//                                                holder.itemView.setOnClickListener(new View.OnClickListener() {
-//                                                    @Override
-//                                                    public void onClick(View v) {
-//                                                        CharSequence option[] = new CharSequence[]{
 //
-//                                                                "Cancel Chat Request"
-//
-//                                                        };
-//                                                        // implement progress bar
-//
-//                                                        AlertDialog.Builder builder =
-//                                                                new AlertDialog.Builder(getContext());
-//                                                        builder.setTitle("Already sent Request");
-//                                                        builder.setItems(option, new DialogInterface.OnClickListener() {
-//                                                            @Override
-//                                                            public void onClick(DialogInterface dialog, int which) {
-//
-//                                                                if (which == 0) {
-//
-//                                                                }
-//                                                            }
-//                                                        });
-//                                                        builder.show();
-//                                                    }
-//                                                });
                                             }
 
                                             @Override
