@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class PhoneLoginActivity extends AppCompatActivity {
 
     private MaterialButton mSendVerficationButton, mVerifyButton;
-    private EditText mPhoneNumberEditText, mVerficationCodeEditText;
+    private EditText mPhoneNumberEditText, mVerficationCodeEditText , mCountryCode;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
     private String mVerficationId;
     private PhoneAuthProvider.ForceResendingToken mForceResendingToken;
@@ -46,14 +46,16 @@ public class PhoneLoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String phoneNumber =
-                        mPhoneNumberEditText.getText().toString();
+                        mPhoneNumberEditText.getText().toString().trim();
+
+                String countryCode = mCountryCode.getText().toString().trim();
                 if (TextUtils.isEmpty(phoneNumber)){
 
                     Toast.makeText(PhoneLoginActivity.this, "please enter phone", Toast.LENGTH_SHORT).show();
                 }else {
 
                     PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                            phoneNumber,        // Phone number to verify
+                            countryCode+phoneNumber,        // Phone number to verify
                             60,                 // Timeout duration
                             TimeUnit.SECONDS,   // Unit of timeout
                             PhoneLoginActivity.this,               // Activity (for callback binding)
@@ -97,6 +99,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
 
                 mSendVerficationButton.setVisibility(View.INVISIBLE);
                 mPhoneNumberEditText.setVisibility(View.INVISIBLE);
+                mCountryCode.setVisibility(View.INVISIBLE);
 
                 mVerficationCodeEditText.setVisibility(View.VISIBLE);
                 mVerifyButton.setVisibility(View.VISIBLE);
@@ -133,6 +136,7 @@ public class PhoneLoginActivity extends AppCompatActivity {
         mSendVerficationButton = findViewById(R.id.send_verification_code_buttom);
         mVerifyButton = findViewById(R.id.verify_button);
         mPhoneNumberEditText = findViewById(R.id.phone_number_ed);
+        mCountryCode = findViewById(R.id.countryCodeET);
         mVerficationCodeEditText = findViewById(R.id.verification_code_ed);
         mAuth = FirebaseAuth.getInstance();
     }

@@ -10,6 +10,8 @@
     <string name="shr_hint_username">Username</string>
     <string name="shr_hint_email">Email</string>
     <string name="shr_hint_password">Password</string>
+    <string name="verify_phone_msg">WhatsApp will send and SMS message to verify your phone number. Enter your country code and phone number.</string>
+    <string name="agree_n_continue">Tap "Agree and continue" to accept the WhatsApp Terms of Service and Privacy Policy.</string>
     <string name="login">login</string>
     <string name="sign_up">sign up</string>
     <string name="error_password">Password must contain at least 8 characters.</string>

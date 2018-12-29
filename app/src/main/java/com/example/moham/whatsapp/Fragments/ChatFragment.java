@@ -88,7 +88,7 @@ public class ChatFragment extends Fragment {
 
                             if (dataSnapshot.hasChild("image")) {
                                 chatuserImage = dataSnapshot.child("image").getValue().toString();
-                                Picasso.get().load(chatuserImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                                Picasso.get().load(chatuserImage).placeholder(R.drawable.pic).into(holder.profileImage);
                             }
                             final String chatusername = dataSnapshot.child("name").getValue().toString();
                             String chatuserStatus = dataSnapshot.child("status").getValue().toString();

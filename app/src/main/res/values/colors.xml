@@ -11,5 +11,7 @@
     <color name="productGridBackgroundColor">#FFFFFF</color>
     <color name="cancel">#ff0000</color>
     <color name="accept">#4caf50</color>
+    <color name="button_color">#25D366</color>
+
 
 </resources>

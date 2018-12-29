@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -133,9 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendUserToSettingsActivity() {
         Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(settingsIntent);
-        finish();
     }
 
     private void sendUserToLoginActivity() {
@@ -190,6 +189,13 @@ public class MainActivity extends AppCompatActivity {
                 new EditText(MainActivity.this);
         groupNameField.setHint("e.g Pubg ");
         mAlertDialog.setView(groupNameField);
+
+        InputFilter[] editFilters = groupNameField.getFilters();
+        InputFilter[] newFilters = new InputFilter[editFilters.length + 1];
+        System.arraycopy(editFilters, 0, newFilters, 0, editFilters.length);
+        newFilters[editFilters.length] = new InputFilter.LengthFilter(15);
+        groupNameField.setFilters(newFilters);
+
 
         mAlertDialog.setPositiveButton("create", new DialogInterface.OnClickListener() {
             @Override

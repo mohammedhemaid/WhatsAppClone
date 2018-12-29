@@ -8,36 +8,89 @@
     tools:context=".PhoneLoginActivity"
     tools:layout_editor_absoluteY="25dp">
 
-
-    <EditText
-        android:id="@+id/phone_number_ed"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/carrierChargesTV"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="105dp"
-        android:hint="write you phone number here"
-        android:textAlignment="center"
-        android:textSize="14sp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Carrier SMS charges may apply"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verify_button"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/verifyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Verify your phone number"
+        android:textColor="#118C7E"
+        android:textSize="18dp"
         android:textStyle="bold"
-        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/smsTV2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/verifyTV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="@string/verify_phone_msg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyTV" />
+
+    <EditText
+        android:id="@+id/countryCodeET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="+970"
+        app:layout_constraintBaseline_toBaselineOf="@+id/phone_number_ed"
+        app:layout_constraintEnd_toStartOf="@+id/phone_number_ed"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/phone_number_ed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="write you phone number here"
+        android:inputType="phone"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/countryCodeET"
+        app:layout_constraintTop_toBottomOf="@+id/smsTV2" />
 
     <EditText
         android:id="@+id/verification_code_ed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
         android:hint="write verification code here"
         android:textAlignment="center"
         android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number_ed" />
 
     <android.support.design.button.MaterialButton
         android:id="@+id/send_verification_code_buttom"
-        style="@style/Widget.Shrine.Button"
+        style="@style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -48,7 +101,7 @@
 
     <android.support.design.button.MaterialButton
         android:id="@+id/verify_button"
-        style="@style/Widget.Shrine.Button"
+        style="@style/Widget.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

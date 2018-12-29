@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatActivity">
+    tools:context=".ChatActivity"
+    android:background="@drawable/default_wallpaper"
+    >
 
 
     <include
@@ -28,7 +30,10 @@
             android:id="@+id/send_chat_message_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/rect_round"
+            android:padding="10dp"
             android:layout_weight="3"
+            android:layout_marginEnd="4dp"
             android:hint="write your message here..." />
 
         <ImageButton
@@ -36,6 +41,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".4"
+            android:background="@drawable/rect_round"
+            android:padding="10dp"
             android:src="@drawable/ic_send_black_24dp" />
     </LinearLayout>
 
@@ -43,6 +50,7 @@
         android:id="@+id/private_list_messages_rv"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:padding="8dp"
         app:layout_constraintBottom_toTopOf="@+id/chat_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

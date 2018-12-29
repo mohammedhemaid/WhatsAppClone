@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="8dp"
     android:layout_height="wrap_content">
 
 
@@ -12,7 +11,8 @@
         android:id="@+id/message_user_image_civ"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_person_black_24dp"
+        android:src="@drawable/pic"
+        android:padding="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:padding="4dp"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
+
         android:background="@drawable/receiver_messages_layout"
         app:layout_constraintStart_toEndOf="@+id/message_user_image_civ"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:padding="4dp"
+        android:padding="8dp"
+        android:textColor="@android:color/black"
         app:layout_constraintBaseline_toBaselineOf="@+id/receiver_message_text"
         android:background="@drawable/sender_messages_layout"
         app:layout_constraintEnd_toEndOf="parent" />

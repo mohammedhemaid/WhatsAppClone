@@ -67,7 +67,7 @@ public class FindFriendActivity extends AppCompatActivity {
 
                         holder.userName.setText(model.getName());
                         holder.userStatus.setText(model.getStatus());
-                        Picasso.get().load(model.getImage()).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                        Picasso.get().load(model.getImage()).placeholder(R.drawable.pic).into(holder.profileImage);
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity {
         init();
 
         mUserNameTextView.setText(mMessageReciverName);
-        Picasso.get().load(mMessageReciverImage).placeholder(R.drawable.ic_person_black_24dp).into(mChatUserImageCircleImageView);
+        Picasso.get().load(mMessageReciverImage).placeholder(R.drawable.pic).into(mChatUserImageCircleImageView);
 
         mSendMessageImageButton.setOnClickListener(new View.OnClickListener() {
             @Override

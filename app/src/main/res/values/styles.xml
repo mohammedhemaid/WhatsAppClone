@@ -9,21 +9,23 @@
         <item name="colorControlActivated">@color/colorControlActivated</item>
     </style>
 
-    <style name="Widget.Shrine.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
+    <style name="Widget.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.TextInputLayout.HintText</item>
+        <item name="boxStrokeColor">@color/button_color</item>
+
         <item name="android:paddingBottom">8dp</item>
     </style>
 
-    <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="TextAppearance.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="Widget.Shrine.Button" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">#ffffff</item>
-        <item name="backgroundTint">?attr/colorPrimaryDark</item>
+        <item name="backgroundTint">@color/button_color</item>
 
     </style>
-    <style name="Theme.Main.Activity" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.MainActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -32,7 +34,10 @@
     </style>
     <style name="AlertDialog.MainActivity" parent="Base.Theme.AppCompat.Light.Dialog">
 
+    </style>
 
+    <style name="PopupMenuStyle" parent="Theme.AppCompat.Light">
+        <item name="android:background">@android:color/white</item>
     </style>
 
 </resources>

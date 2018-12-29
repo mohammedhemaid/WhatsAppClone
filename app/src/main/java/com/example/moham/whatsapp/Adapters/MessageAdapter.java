@@ -70,7 +70,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 if (dataSnapshot.hasChild("image")) {
 
                     String receiverImage = dataSnapshot.child("image").getValue().toString();
-                    Picasso.get().load(receiverImage).placeholder(R.drawable.ic_person_black_24dp).into(messageViewHolder.mReceiverImageCircleImageView);
+                    Picasso.get().load(receiverImage).placeholder(R.drawable.pic).into(messageViewHolder.mReceiverImageCircleImageView);
                 }
             }
 

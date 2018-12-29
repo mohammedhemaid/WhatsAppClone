@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_person_black_24dp"
+        android:src="@drawable/pic"
         app:civ_border_color="@color/colorAccentGrey"
         app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"

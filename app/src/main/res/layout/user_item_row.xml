@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:paddingBottom="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/chat_proflie_civ"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/ic_person_black_24dp"
+        android:src="@drawable/pic"
         app:civ_border_color="@color/colorAccentGrey"
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +23,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+
         app:layout_constraintStart_toEndOf="@+id/chat_proflie_civ"
         app:layout_constraintTop_toTopOf="parent" />
 

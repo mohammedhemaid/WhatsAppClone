@@ -108,7 +108,7 @@ public class ContactsFragment extends Fragment {
                                 String username = dataSnapshot.child("name").getValue().toString();
                                 String userStatus = dataSnapshot.child("status").getValue().toString();
 
-                                Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                                Picasso.get().load(userImage).placeholder(R.drawable.pic).into(holder.profileImage);
                                 holder.mUserName.setText(username);
                                 holder.mUserStatus.setText(userStatus);
 

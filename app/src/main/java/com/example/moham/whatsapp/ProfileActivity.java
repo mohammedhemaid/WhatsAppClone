@@ -77,7 +77,7 @@ public class ProfileActivity extends AppCompatActivity {
                     String userStatus = dataSnapshot.child("status").getValue().toString();
 
 
-                    Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(profileImage);
+                    Picasso.get().load(userImage).placeholder(R.drawable.pic).into(profileImage);
                     mUserName.setText(username);
                     mUserStatus.setText(userStatus);
 
