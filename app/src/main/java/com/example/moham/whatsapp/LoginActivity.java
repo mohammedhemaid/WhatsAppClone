@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -29,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
     TextView mForgetPasswordTextView, mCreateNewAccountTextView;
     FirebaseAuth mAuth;
+    private DatabaseReference mUserRef;
 
 
     @Override
@@ -72,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginUsingPhoneButton = findViewById(R.id.login_using_phone_button);
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+        mUserRef = FirebaseDatabase.getInstance().getReference().child("Users");
     }
 
     @Override
@@ -88,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
         String email = mEmailTextInputEditText.getText().toString().trim();
         String password = mPasswordTextInputEditText.getText().toString().trim();
+
         if (!isPasswordValid(password)) {
             mPasswordTextInputLayout.setError(getString(R.string.error_password));
         } else {
@@ -99,6 +105,21 @@ public class LoginActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Toast.makeText(LoginActivity.this, "Sucess failed.",
                                         Toast.LENGTH_SHORT).show();
+                                String mCurrentUserID = mAuth.getCurrentUser().getUid();
+                                String deviceToken  = FirebaseInstanceId.getInstance().getToken();
+
+                                mUserRef.child(mCurrentUserID).child("device_token")
+                                        .setValue(deviceToken)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()){
+
+                                                    navigateToMainActivity();
+
+                                                }
+                                            }
+                                        });
 
                                 Log.d("", "signInWithEmail:success");
                                 navigateToMainActivity();
@@ -132,4 +153,5 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isPasswordValid(@Nullable String text) {
         return text != null && text.length() >= 8;
     }
+
 }

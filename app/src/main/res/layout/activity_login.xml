@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="40dp"
-        android:hint="@string/shr_hint_username"
+        android:hint="@string/shr_hint_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView">

@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView mUserName, mUserStatus;
     private CircleImageView profileImage;
     private MaterialButton mSendMessageButton, mCancelMessageButton;
-    private DatabaseReference mUserRef, mChatRequestRef, mContactsRef;
+    private DatabaseReference mUserRef, mChatRequestRef, mContactsRef, mNotificationRef;
     private FirebaseAuth mAuth;
 
     @Override
@@ -59,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         mChatRequestRef = FirebaseDatabase.getInstance().getReference().child("Chat Requests");
         mContactsRef = FirebaseDatabase.getInstance().getReference().child("Contacts");
+        mNotificationRef = FirebaseDatabase.getInstance().getReference().child("Notifications");
 
     }
 
@@ -140,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                            if (dataSnapshot.hasChild(receiverUserID)){
+                                            if (dataSnapshot.hasChild(receiverUserID)) {
 
                                                 mCurrentState = "friends";
                                                 mSendMessageButton.setText("Remove This Contact");
@@ -181,7 +184,8 @@ public class ProfileActivity extends AppCompatActivity {
                     if (mCurrentState.equals("request_received")) {
 
                         AcceptChatRequest();
-                    } if (mCurrentState.equals("friends")) {
+                    }
+                    if (mCurrentState.equals("friends")) {
                         removeSpecificContacts();
 
                     }
@@ -203,7 +207,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         if (task.isSuccessful()) {
 
-                            mContactsRef    .child(receiverUserID).child(mCurrentUserId)
+                            mContactsRef.child(receiverUserID).child(mCurrentUserId)
                                     .removeValue()
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -332,9 +336,29 @@ public class ProfileActivity extends AppCompatActivity {
 
                                             if (task.isSuccessful()) {
 
-                                                mSendMessageButton.setEnabled(true);
-                                                mCurrentState = "request_sent";
-                                                mSendMessageButton.setText("Cancel Chat Request");
+                                                HashMap<String, String> mChatNotificationMap =
+                                                        new HashMap<>();
+                                                mChatNotificationMap.put("from", mCurrentUserId);
+                                                mChatNotificationMap.put("type", "request");
+
+                                                mNotificationRef.child(receiverUserID).push()
+                                                        .setValue(mChatNotificationMap)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                                if (task.isSuccessful()){
+
+                                                                    mSendMessageButton.setEnabled(true);
+                                                                    mCurrentState = "request_sent";
+                                                                    mSendMessageButton.setText("Cancel Chat Request");
+
+                                                                }
+                                                            }
+                                                        });
+
+
+
                                             }
                                         }
                                     });

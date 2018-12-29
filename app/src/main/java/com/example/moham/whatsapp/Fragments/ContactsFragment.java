@@ -1,13 +1,16 @@
 package com.example.moham.whatsapp.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.moham.whatsapp.Model.Contacts;
@@ -42,8 +45,12 @@ public class ContactsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme);
+
         // Inflate the layout for this fragment
-        mContactView = inflater.inflate(R.layout.fragment_contacts, container, false);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        mContactView = localInflater.inflate(R.layout.fragment_contacts, container, false);
+
         mMyContactRecycleView = mContactView.findViewById(R.id.contact_list_rv);
         mMyContactRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAuth = FirebaseAuth.getInstance();
@@ -74,24 +81,46 @@ public class ContactsFragment extends Fragment {
                 mUserRef.child(userId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild("image")) {
 
-                            String userImage = dataSnapshot.child("image").getValue().toString();
-                            String username = dataSnapshot.child("name").getValue().toString();
-                            String userStatus = dataSnapshot.child("status").getValue().toString();
+                        if (dataSnapshot.exists()) {
 
-                            Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
-                            holder.mUserName.setText(username);
-                            holder.mUserStatus.setText(userStatus);
 
-                        } else {
+                            if (dataSnapshot.child("userState").hasChild("state")) {
 
-                            String username = dataSnapshot.child("name").getValue().toString();
-                            String userStatus = dataSnapshot.child("status").getValue().toString();
+                                String State = dataSnapshot.child("userState").child("state").getValue().toString();
+                                String time = dataSnapshot.child("userState").child("time").getValue().toString();
+                                String date = dataSnapshot.child("userState").child("date").getValue().toString();
 
-                            holder.mUserName.setText(username);
-                            holder.mUserStatus.setText(userStatus);
+                                if (State.equals("Online")) {
+                                    holder.onlineIcon.setVisibility(View.VISIBLE);
 
+                                } else if (State.equals("offline")) {
+
+                                    holder.onlineIcon.setVisibility(View.INVISIBLE);
+                                }
+                            } else {
+
+                                holder.onlineIcon.setVisibility(View.INVISIBLE);
+                            }
+                            if (dataSnapshot.hasChild("image")) {
+
+                                String userImage = dataSnapshot.child("image").getValue().toString();
+                                String username = dataSnapshot.child("name").getValue().toString();
+                                String userStatus = dataSnapshot.child("status").getValue().toString();
+
+                                Picasso.get().load(userImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+                                holder.mUserName.setText(username);
+                                holder.mUserStatus.setText(userStatus);
+
+                            } else {
+
+                                String username = dataSnapshot.child("name").getValue().toString();
+                                String userStatus = dataSnapshot.child("status").getValue().toString();
+
+                                holder.mUserName.setText(username);
+                                holder.mUserStatus.setText(userStatus);
+
+                            }
                         }
                     }
 
@@ -122,12 +151,14 @@ public class ContactsFragment extends Fragment {
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
         TextView mUserName, mUserStatus;
         CircleImageView profileImage;
+        ImageView onlineIcon;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             mUserName = itemView.findViewById(R.id.user_name_chat_tv);
             mUserStatus = itemView.findViewById(R.id.user_status_tv);
             profileImage = itemView.findViewById(R.id.chat_proflie_civ);
+            onlineIcon = itemView.findViewById(R.id.online_Status_iv);
 
         }
     }

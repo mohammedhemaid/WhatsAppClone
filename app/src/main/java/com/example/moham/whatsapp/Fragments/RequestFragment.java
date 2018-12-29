@@ -2,11 +2,13 @@ package com.example.moham.whatsapp.Fragments;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,8 +53,12 @@ public class RequestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // clone the inflater using the ContextThemeWrapper
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme);
+
         // Inflate the layout for this fragment
-        mRequestFragmentView = inflater.inflate(R.layout.fragment_request, container, false);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        mRequestFragmentView = localInflater.inflate(R.layout.fragment_request, container, false);
 
         mRequestFragmentRecycleView = mRequestFragmentView.findViewById(R.id.request_list_rv);
         mRequestFragmentRecycleView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -201,7 +207,83 @@ public class RequestFragment extends Fragment {
 
                                             }
                                         });
+                                    } else if(type.equals("sent")){
+
+                                        MaterialButton request_sent_button = holder.itemView.findViewById(R.id.accept_request_button);
+                                        request_sent_button.setText("Request Sent");
+
+                                        holder.itemView.findViewById(R.id.cancel_request_button).setVisibility(View.INVISIBLE);
+
+                                        mUserRef.child(list_user_id).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if (dataSnapshot.hasChild("image")) {
+
+                                                    String requestuserImage = dataSnapshot.child("image").getValue().toString();
+
+
+                                                    Picasso.get().load(requestuserImage).placeholder(R.drawable.ic_person_black_24dp).into(holder.profileImage);
+
+
+                                                }
+                                                final String requestusername = dataSnapshot.child("name").getValue().toString();
+                                                String requestuserStatus = dataSnapshot.child("status").getValue().toString();
+
+                                                holder.userName.setText(requestusername);
+                                                holder.userStatus.setText("you have sent a request to "+requestusername);
+
+                                                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        CharSequence option[] = new CharSequence[]{
+
+                                                                "Cancel Chat Request"
+
+                                                        };
+                                                        // implement progress bar
+
+                                                        AlertDialog.Builder builder =
+                                                                new AlertDialog.Builder(getContext());
+                                                        builder.setTitle("Already sent Request");
+                                                        builder.setItems(option, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+
+                                                                if (which == 0) {
+                                                                    mChatRequestRef.child(mCurrentUserID).child(list_user_id)
+                                                                            .removeValue()
+                                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                @Override
+                                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                                    if (task.isSuccessful()) {
+                                                                                        mChatRequestRef.child(list_user_id).child(mCurrentUserID)
+                                                                                                .removeValue()
+                                                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                                    @Override
+                                                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                                                        if (task.isSuccessful()) {
+                                                                                                            Toast.makeText(getContext(), "you have cancel the request", Toast.LENGTH_SHORT).show();
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                }
+                                                            }
+                                                        });
+                                                        builder.show();
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                            }
+                                        });
                                     }
+
                                 }
 
 

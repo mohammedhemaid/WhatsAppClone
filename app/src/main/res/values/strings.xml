@@ -8,6 +8,7 @@
     <string name="groups">Groups</string>
     <string name="contacts">Contacts</string>
     <string name="shr_hint_username">Username</string>
+    <string name="shr_hint_email">Email</string>
     <string name="shr_hint_password">Password</string>
     <string name="login">login</string>
     <string name="sign_up">sign up</string>

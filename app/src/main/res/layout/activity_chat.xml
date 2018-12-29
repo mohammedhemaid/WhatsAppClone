@@ -7,37 +7,12 @@
     tools:context=".ChatActivity">
 
 
-
     <include
         android:id="@+id/chat_bar_layout"
-        layout="@layout/app_bar" />
+        layout="@layout/app_bar"></include>
 
 
-    <ScrollView
-        android:id="@+id/chat_scroll_view"
 
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chat_bar_layout">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/chat_text_display_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-
-                android:layout_marginBottom="60dp" />
-        </LinearLayout>
-
-    </ScrollView>
 
     <LinearLayout
         android:id="@+id/chat_linearLayout"
@@ -63,4 +38,13 @@
             android:layout_weight=".4"
             android:src="@drawable/ic_send_black_24dp" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/private_list_messages_rv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/chat_linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chat_bar_layout" />
 </android.support.constraint.ConstraintLayout>
